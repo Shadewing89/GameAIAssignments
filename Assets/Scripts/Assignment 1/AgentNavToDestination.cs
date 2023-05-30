@@ -17,6 +17,6 @@ public class AgentNavToDestination : MonoBehaviour
     
     void Update()
     {
-        agent.SetDestination(navigationTarget.position + navigationTarget.GetComponent<Collider>().bounds.size);
+        agent.SetDestination(navigationTarget.position + navigationTarget.GetComponent<Collider>().bounds.size); //collider size stops movement to the edge of object
     }
 }

@@ -7,15 +7,19 @@ using UnityEngine.AI;
 
 public class AgentAnimationControl : MonoBehaviour
 {
+    private A2_AgentNavToDestination agentNavDes;
     public Animator anim;
     private Vector3 previousPos;
     private bool moving;
     private bool isMoving;
-    private bool isCollecting;
+    private bool isActing;
+
     void Start()
     {
+        agentNavDes = GetComponent<A2_AgentNavToDestination>();
         isMoving = false;
-        isCollecting = false;
+        isActing = false;
+        ResetAnimatorBool();
     }
 
     void Update()
@@ -34,7 +38,7 @@ public class AgentAnimationControl : MonoBehaviour
     }
     void AnimateWalk(bool move)
     {
-        if(move != isMoving && !isCollecting)
+        if(move != isMoving && !isActing)
         {
             ResetAnimatorBool();
             anim.SetBool("Walk", move);
@@ -45,17 +49,20 @@ public class AgentAnimationControl : MonoBehaviour
     {
         if(other.gameObject.layer == 7) //layer 7 in inspector is set to collectable, which we want to check
         {
-            isCollecting = true; //stop walking
+            isActing = true; //stop walking -animation
+            agentNavDes.StopMoving();
             ResetAnimatorBool();
             anim.SetBool("Crouch", true); //gather carrot -animation
-            StartCoroutine("CrouchTimer", other);
+            StartCoroutine("ActionTimer", other);
         }
     }
-    IEnumerator CrouchTimer(Collider other)
+    IEnumerator ActionTimer(Collider other)
     {
         yield return new WaitForSeconds(1f);
         other.gameObject.SetActive(false); //hide carrot
-        isCollecting = false;
+        isActing = false;
         ResetAnimatorBool();
+        yield return new WaitForSeconds(1f);
+        agentNavDes.DestinationCheck();
     }
 }
