@@ -48,6 +48,13 @@ public class A2_AgentNavToDestination : MonoBehaviour
                 break;
             }
         }
-        agent.SetDestination(navigationTargets[nextDestinationIndex].position);
+        if(navigationTargets[nextDestinationIndex].gameObject.activeInHierarchy == false)
+        {
+            StopMoving();
+        }
+        else
+        {
+            agent.SetDestination(navigationTargets[nextDestinationIndex].position);
+        }
     }
 }

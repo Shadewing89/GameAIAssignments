@@ -3560,7 +3560,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cff4382be418f734cba4b1da52253e06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  navigationTarget: {fileID: 0}
+  navigationTargets: []
 --- !u!95 &7503365769002940530 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 7269284082443785521, guid: f3365ef49688bb74b8027e48bde07e4a, type: 3}
