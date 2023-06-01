@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,7 @@ using UnityEngine.AI;
 public class A2_AgentNavToDestination : MonoBehaviour
 {
     public List<Transform> navigationTargets;
+    public List<Transform> pushTargets;
     private NavMeshAgent agent;
     private int nextDestinationIndex;
     
@@ -27,6 +29,10 @@ public class A2_AgentNavToDestination : MonoBehaviour
             if (go.layer == 7 && go.transform.parent == null)//&& go.transform.parent == null makes sure we only add the parent objects in hierarchy, not the children
             {
                 navigationTargets.Add(go.transform);
+            }
+            if (go.layer == 8 && go.transform.parent == null)
+            {
+                pushTargets.Add(go.transform);
             }
         }
     }
@@ -54,7 +60,20 @@ public class A2_AgentNavToDestination : MonoBehaviour
         }
         else
         {
-            agent.SetDestination(navigationTargets[nextDestinationIndex].position);
+            NavMeshPath path = new NavMeshPath();
+            agent.CalculatePath(navigationTargets[nextDestinationIndex].position, path);
+            if(path.status == NavMeshPathStatus.PathComplete)
+            {
+                agent.SetDestination(navigationTargets[nextDestinationIndex].position);
+            }
+            else
+            {
+                PushableObjectCheck();
+            }
         }
+    }
+    public void PushableObjectCheck() //We check for pushable objects that need to be pushed to pressure plates or pits
+    {
+
     }
 }
