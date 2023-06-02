@@ -1,6 +1,7 @@
 using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -12,6 +13,7 @@ public class A2_AgentNavToDestination : MonoBehaviour
     public List<Transform> pushTargets;
     private NavMeshAgent agent;
     private int nextDestinationIndex;
+    private int nextPushIndex;
     
     void Start()
     {
@@ -54,11 +56,12 @@ public class A2_AgentNavToDestination : MonoBehaviour
                 break;
             }
         }
-        if(navigationTargets[nextDestinationIndex].gameObject.activeInHierarchy == false)
+        
+        if (navigationTargets[nextDestinationIndex].gameObject.activeInHierarchy == false) //if no more collectables
         {
             StopMoving();
         }
-        else
+        else //find next destination to set
         {
             NavMeshPath path = new NavMeshPath();
             agent.CalculatePath(navigationTargets[nextDestinationIndex].position, path);
@@ -73,6 +76,35 @@ public class A2_AgentNavToDestination : MonoBehaviour
         }
     }
     public void PushableObjectCheck() //We check for pushable objects that need to be pushed to pressure plates or pits
+    {
+        for (int i = 0; i < pushTargets.Count; ++i)
+        {
+            if (pushTargets[i].gameObject.activeInHierarchy == true)
+            {
+                nextPushIndex = i;
+                break;
+            }
+        }
+        NavMeshPath path = new NavMeshPath();
+        agent.CalculatePath(pushTargets[nextPushIndex].position, path);
+        if (path.status == NavMeshPathStatus.PathComplete)
+        {
+            agent.SetDestination(pushTargets[nextPushIndex].position);
+        }
+        else //brute force another pushable, later replaceable with other backup
+        {
+            nextPushIndex++;
+            if(nextPushIndex >= pushTargets.Count)
+            {
+                StopMoving();
+            }
+            else
+            {
+                PushableObjectCheck();
+            }
+        }
+    }
+    public void TempDestination() //for stuff like reorienting the direction of box pushing by walking to another side before continuing the previous path
     {
 
     }
