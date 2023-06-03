@@ -10,18 +10,19 @@ public class PushableGoalGuiding : MonoBehaviour
 {
     public GameObject goal;
     public GameObject navMeshLink;
-    [SerializeField] private GameObject goalPlusX;
-    [SerializeField] private GameObject goalMinusX;
-    [SerializeField] private GameObject goalPlusZ;
-    [SerializeField] private GameObject goalMinusZ;
+    public List<GameObject> movablePushSides;
     private A2_AgentNavToDestination agentNavDes;
-    private float distanceToGoal;
+    private float biggestDist;
+    public GameObject furthestPoint;
+    public bool whichSideMethodCalled;
+    private bool goalReached;
 
     void Start()
     {
         navMeshLink.SetActive(false);
-        agentNavDes = GameObject.FindWithTag("Player").GetComponent<A2_AgentNavToDestination>();
-        //distanceToGoal = 
+        agentNavDes = GameObject.FindWithTag("Player").GetComponent<A2_AgentNavToDestination>(); //Only works with one agent
+        whichSideMethodCalled = false; //stops infinite loop of checking
+        goalReached = false;
     }
 
     void Update()
@@ -33,15 +34,39 @@ public class PushableGoalGuiding : MonoBehaviour
     {
         if (other.gameObject.layer == 9)
         {
+            goalReached = true;
+            Physics.IgnoreLayerCollision(6, 8); //this will stop collision between agent and pushable box layers, not good if multiple pushables
             navMeshLink.SetActive(true);
             agentNavDes.DestinationCheck();
         }
     }
-    private void OnCollisionEnter(Collision collision) //check if box is pushed into wall
+    private void OnCollisionEnter(Collision collision) //check if box is pushed into wall or player walks into it
     {
-        if(collision.gameObject.layer == 10)
+        if(collision.gameObject.layer == 10 && !goalReached)
         {
-
+            WhichSideToPush();
         }
+        if (collision.gameObject.layer == 6 && !goalReached)
+        {
+            if (whichSideMethodCalled == false)
+            {
+                WhichSideToPush();
+            }
+        }
+    }
+    private void WhichSideToPush()
+    {
+        foreach (GameObject side in movablePushSides)
+        {
+            float distance = Vector3.Distance(side.transform.position, goal.transform.position);
+            if(distance > biggestDist)
+            {
+                biggestDist = distance;
+                furthestPoint = side;
+            }
+        }
+        furthestPoint.SetActive(true);
+        agentNavDes.TempDestination(furthestPoint);
+        whichSideMethodCalled = false; //sets it false, only set true after agent has reached the reorient navpoint in PushNavTargetReached.cs
     }
 }

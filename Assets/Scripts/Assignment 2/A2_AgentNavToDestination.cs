@@ -104,8 +104,8 @@ public class A2_AgentNavToDestination : MonoBehaviour
             }
         }
     }
-    public void TempDestination() //for stuff like reorienting the direction of box pushing by walking to another side before continuing the previous path
+    public void TempDestination(GameObject tempWaypoint) //for stuff like reorienting the direction of box pushing by walking to another side before continuing the previous path
     {
-
+        agent.SetDestination(tempWaypoint.transform.position);
     }
 }
