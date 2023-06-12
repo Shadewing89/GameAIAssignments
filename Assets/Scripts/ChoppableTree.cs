@@ -11,6 +11,8 @@ public class ChoppableTree : MonoBehaviour, IHealth
     private bool shouldLogSpawn;
     void Start()
     {
+        currentHealth = healthMax;
+        treeTop.SetActive(true);
         if (LogPool.SharedInstance == null)
         {
             shouldLogSpawn = false;
@@ -31,9 +33,9 @@ public class ChoppableTree : MonoBehaviour, IHealth
             Death();
         }
     }
-    public void TakeDamage()
+    public void TakeDamage(float damage)
     {
-
+        currentHealth -= damage;
     }
     public void Death()
     {

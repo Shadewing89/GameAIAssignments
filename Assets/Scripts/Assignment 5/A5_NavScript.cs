@@ -54,7 +54,7 @@ public class A5_NavScript : MonoBehaviour
     }
     void Update()
     {
-
+        //Add events
     }
     public void StopMoving()//set the destination to current position so the agent stops
     {

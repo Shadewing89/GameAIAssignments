@@ -4,6 +4,6 @@ using UnityEngine;
 
 public interface IHealth
 {
-    public void TakeDamage() { }
+    public void TakeDamage(float value) { }
     public void Death() { }
 }
