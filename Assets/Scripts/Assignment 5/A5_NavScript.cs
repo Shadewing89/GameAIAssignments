@@ -13,12 +13,14 @@ public class A5_NavScript : MonoBehaviour
     public List<Transform> collectableTargets;
     public List<Transform> pushTargets;
     public List<Transform> treeTargets;
+    public List<Transform> harvestTargets;
     private NavMeshAgent agent;
     private int nextDestinationIndex;
     private int nextPushIndex;
     private bool availableCollectables;
     private bool availablePushables;
     private bool availableTrees;
+    private bool availableHarvestables; //for later use with carrots in assignment 8
 
     void Start()
     {
@@ -26,6 +28,7 @@ public class A5_NavScript : MonoBehaviour
         availableCollectables = false;
         availablePushables = false;
         availableTrees = false;
+        availableHarvestables = false;
         ListNavTargets();
         DestinationCheck();
     }
@@ -44,17 +47,33 @@ public class A5_NavScript : MonoBehaviour
             {
                 pushTargets.Add(go.transform);
                 availablePushables = true;
-            }
+            } 
             if (go.layer == 11 && go.transform.parent == null)
             {
                 treeTargets.Add(go.transform);
                 availableTrees = true;
             }
         }
+        if (collectableTargets.Count == 0)
+        {
+            availableCollectables = false;
+        }
+        if (pushTargets.Count == 0)
+        {
+            availablePushables = false;
+        }
+        if (treeTargets.Count == 0)
+        {
+            availableTrees = false;
+        }
+        if (harvestTargets.Count == 0)
+        {
+            availableHarvestables = false;
+        }
     }
     void Update()
     {
-        //Add events
+        
     }
     public void StopMoving()//set the destination to current position so the agent stops
     {
@@ -172,4 +191,21 @@ public class A5_NavScript : MonoBehaviour
     {
         agent.SetDestination(tempWaypoint.transform.position);
     }
+    void OnEnable() //register to events
+    {
+        Debug.Log("OnEnable");
+        ChoppableTree.OnTreeDeath += TreeHasDied;
+        Debug.Log("OnEnable called descheck");
+    }
+    void OnDisable() //unsubscribe from events
+    {
+        ChoppableTree.OnTreeDeath -= TreeHasDied;
+    }
+    private void TreeHasDied()
+    {
+        Debug.Log("event activated");
+        treeTargets.Clear();
+        ListNavTargets();
+        DestinationCheck();
+    } 
 }

@@ -107,6 +107,6 @@ public class AnimationA5 : MonoBehaviour
             yield return new WaitForSeconds(1f);
             hit.TakeDamage(3f);
         }
-        agentNavScript.DestinationCheck();
+        //agentNavScript.DestinationCheck();
     }
 }

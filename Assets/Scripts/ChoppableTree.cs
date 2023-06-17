@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//handles choppable trees' health, death, and notifying navigation that they have died with event call
 public class ChoppableTree : MonoBehaviour, IHealth
 {
     public float healthMax;
@@ -9,6 +10,9 @@ public class ChoppableTree : MonoBehaviour, IHealth
     public GameObject treeTop;
     public Transform treeLogSpawnPoint;
     private bool shouldLogSpawn;
+    private bool deathEventCalled;
+    public delegate void TreeDeath();
+    public static event TreeDeath OnTreeDeath;
     void Start()
     {
         currentHealth = healthMax;
@@ -21,6 +25,7 @@ public class ChoppableTree : MonoBehaviour, IHealth
         {
             shouldLogSpawn = true;
         }
+        deathEventCalled = false;
     }
     void Update()
     {
@@ -53,6 +58,12 @@ public class ChoppableTree : MonoBehaviour, IHealth
                 log.SetActive(true);
                 //log.GetComponent<Rigidbody>().AddForce(bulletShootSpawnLocation.up * bulletSpeed, ForceMode.Impulse); //impulse to get all the energy at once
             }
+        }
+        if (OnTreeDeath != null && !deathEventCalled) //if event is not null, call event to inform agents of disappearance of tree and spawn of collectable
+        {
+            OnTreeDeath();
+            Debug.Log("Tree called ontreedeath");
+            deathEventCalled = true;
         }
     }
 }
