@@ -33,8 +33,8 @@ public class TowDefAgentSpawner : MonoBehaviour
         GameObject agent = RedAgentPool.SharedInstance.GetPooledObject();
         if (agent != null)
         {
-            agent.GetComponent<Rigidbody>().velocity = Vector3.zero; //This resets the movement of the gameobject
-            agent.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+            //agent.GetComponent<Rigidbody>().velocity = Vector3.zero; //This resets the movement of the gameobject
+            //agent.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
             agent.transform.position = gameObject.transform.position;
             agent.transform.rotation = gameObject.transform.rotation;
             agent.SetActive(true);

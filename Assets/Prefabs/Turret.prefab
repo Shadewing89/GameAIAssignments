@@ -252,6 +252,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1712382299004233843}
   - component: {fileID: 3569605091779233436}
+  - component: {fileID: 4340431685484532218}
   m_Layer: 0
   m_Name: Turret
   m_TagString: Untagged
@@ -288,6 +289,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8845cf540d49ce44d8e1e633d9dbe626, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetingRange: 10
+  fireRate: 2
+  shootForce: 10
+  aimSpeed: 2
+  bulletShootSpawnLocation: {fileID: 4308769675622641536}
+  turretRotationObject: {fileID: 7439188860138363491}
+--- !u!135 &4340431685484532218
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4980129457666144522}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8765276405633158180
 GameObject:
   m_ObjectHideFlags: 0

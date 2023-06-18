@@ -14,9 +14,10 @@ GameObject:
   - component: {fileID: 7948630842981156960}
   - component: {fileID: 7002235976574169227}
   - component: {fileID: 1511376958989151938}
+  - component: {fileID: 7517204773014389674}
   m_Layer: 6
   m_Name: Agent
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -52,6 +53,7 @@ MonoBehaviour:
   collectableTargets: []
   pushTargets: []
   treeTargets: []
+  harvestTargets: []
 --- !u!114 &6218044147509725773
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137,6 +139,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &7517204773014389674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7503365770807594190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fd7f7573d3d06e4dbbb8606cce4831d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthMax: 10
 --- !u!1 &8972857029472277109
 GameObject:
   m_ObjectHideFlags: 0
